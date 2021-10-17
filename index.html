@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8' />
+    <title>Points on a map</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='map'></div>
+    
+    <script>
+        // The value for 'accessToken' begins with 'pk...'
+        mapboxgl.accessToken = 'pk.eyJ1IjoibXVoYW1tYWRodXphaWZha2hhbiIsImEiOiJja3V0cTJtbmswbXJzMnBsdDU3amFoNnZpIn0.2_woAzR8AUKOfnFEDpze6A';
+        const map = new mapboxgl.Map({
+            container: 'map',
+            // Replace YOUR_STYLE_URL with your style URL.
+            style: 'mapbox://styles/muhammadhuzaifakhan/ckuvb5qhafcc317s0w4q3n0x6',
+            center: [    27.805600958,
+      -20.488067656],
+            
+            zoom: 4.0
+        });
+
+        // Code from the next step will go here.
+
+        /* 
+    Add an event listener that runs
+      when a user clicks on the map element.
+    */
+        map.on('click', ({ point }) => {
+            // If the user clicked on one of your markers, get its information.
+            const features = map.queryRenderedFeatures(point, {
+                layers: ['final-map'] // replace with your layer name
+            });
+            if (!features.length) {
+                return;
+            }
+            const feature = features[0];
+
+            // Code from the next step will go here.
+
+            /* 
+    Create a popup, specify its options 
+    and properties, and add it to the map.
+    <p>${feature.properties.description}</p>
+  */
+            const popup = new mapboxgl.Popup({ offset: [0, -15] })
+                .setLngLat(feature.geometry.coordinates)
+                .setHTML(
+                    `<h2>${feature.properties.place_name}</h2>
+                    <p><h3>Description</h3><ul><li>Trace the Face southern Africa</li><li>RedSafe</li><li>Free calls, salamats, Wi-Fi, RCMs, access to computers, Travel documents, family reunification</li><li>MDMP</li></ul></p>
+                    `
+                )
+                .addTo(map);
+        });
+
+    </script>
+</body>
+
+</html>
